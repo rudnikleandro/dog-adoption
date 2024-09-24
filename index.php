@@ -39,7 +39,7 @@
             </li>
           </ul>
           <div class="d-lg-flex col-lg-3 justify-content-lg-end">
-          <a href="login.php"><button class="btn btn-primary">Acesso Restrito</button></a>
+            <a href="login.php"><button class="btn btn-primary">Acesso Restrito</button></a>
           </div>
         </div>
       </div>
@@ -73,15 +73,52 @@
             $id = $row['id'];
             $name = $row['name'];
             $age = $row['age'];
+            $gender = $row['gender'];
+            $breed = $row['breed'];
+            $size = $row['size'];
+            $weight = $row['weight'];
+            $veterinary_info = $row['veterinary_info'];
+            $temperament = $row['temperament'];
+            $additional_info = $row['additional_info'];
+            $location_id = $row['location_id'];
+            $created_at = $row['created_at'];
             $image = $row['image'];
         ?>
 
         <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-          <img src="uploads/<?php echo $image; ?>" class="card-img-top" alt="<?php echo $name; ?>" style="height: 200px; object-fit: cover;">
-          <div class="card-body">
+          <div class="card mb-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#dogModal<?php echo $id; ?>">
+            <img src="uploads/<?php echo $image; ?>" class="card-img-top" alt="<?php echo $name; ?>" style="height: 200px; object-fit: cover;">
+            <div class="card-body">
               <h5 class="card-title"><?php echo $name; ?></h5>
               <p class="card-text">Idade: <?php echo $age; ?> anos</p>
+            </div>
+          </div>
+
+          <!-- Modal -->
+          <div class="modal fade" id="dogModal<?php echo $id; ?>" tabindex="-1" aria-labelledby="dogModalLabel<?php echo $id; ?>" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="dogModalLabel<?php echo $id; ?>"><?php echo $name; ?></h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p><strong>Idade:</strong> <?php echo $age; ?> anos</p>
+                  <p><strong>Gênero:</strong> <?php echo $gender; ?></p>
+                  <p><strong>Raça:</strong> <?php echo $breed; ?></p>
+                  <p><strong>Tamanho:</strong> <?php echo $size; ?></p>
+                  <p><strong>Peso:</strong> <?php echo $weight; ?> kg</p>
+                  <p><strong>Informações Veterinárias:</strong> <?php echo $veterinary_info; ?></p>
+                  <p><strong>Temperamento:</strong> <?php echo $temperament; ?></p>
+                  <p><strong>Informações Adicionais:</strong> <?php echo $additional_info; ?></p>
+                  <p><strong>Localização:</strong> <?php echo $location_id; ?></p>
+                  <p><strong>Criado em:</strong> <?php echo $created_at; ?></p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                  <button type="button" class="btn btn-primary">Adotar</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -93,7 +130,6 @@
       </div>
     </div>
   </section>
-
 
 </body>
 

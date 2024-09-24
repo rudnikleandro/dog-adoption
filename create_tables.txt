@@ -1,0 +1,33 @@
+CREATE TABLE locations (
+    location_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE dogs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    age TINYINT UNSIGNED NOT NULL,
+    gender ENUM('macho', 'femea') NOT NULL,
+    breed VARCHAR(100) NOT NULL,
+    size ENUM('pequeno', 'medio', 'grande') NOT NULL,
+    weight DECIMAL(5,2) NOT NULL,
+    veterinary_info TEXT,
+    temperament TEXT,
+    additional_info TEXT,
+    location_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (location_id) REFERENCES locations(location_id) ON DELETE CASCADE
+);
+
+
+
+CREATE TABLE images (
+    image_id INT AUTO_INCREMENT PRIMARY KEY,
+    dog_id INT NOT NULL,
+    file_name VARCHAR(255) NOT NULL, 
+    file_path VARCHAR(255) NOT NULL, 
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (dog_id) REFERENCES dogs(id) ON DELETE CASCADE
+);
+
+

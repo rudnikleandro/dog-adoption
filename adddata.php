@@ -1,9 +1,5 @@
 <?php
 
-echo "<pre>";
-var_dump($_POST);
-echo "</pre>";
-
     require_once "conn.php";
 
     if (isset($_POST['submit'])) {
