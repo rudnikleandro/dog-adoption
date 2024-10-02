@@ -7,143 +7,55 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST['name'];
-    $age = $_POST['age'];
-    $gender = $_POST['gender'];
-    $breed = $_POST['breed'];
-    $size = $_POST['size'];
-    $weight = $_POST['weight'];
-    $veterinary_info = $_POST['veterinary_info'];
-    $temperament = $_POST['temperament'];
-    $additional_info = $_POST['additional_info'];
-    $location_id = $_POST['location_id'];
+$page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 
-    $image = $_FILES['image']['name'];
-    $target_dir = "uploads/";
-    $target_file = $target_dir . basename($image);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-    if (isset($_FILES['image'])) {
-        $check = getimagesize($_FILES['image']['tmp_name']);
-        if ($check !== false) {
-            $uploadOk = 1;
-        } else {
-            echo "Arquivo não é uma imagem válida.";
-            $uploadOk = 0;
-        }
-    }
-
-    if ($_FILES['image']['size'] > 2000000) {
-        echo "Desculpe, o arquivo é muito grande.";
-        $uploadOk = 0;
-    }
-
-    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-        echo "Desculpe, apenas arquivos JPG, JPEG e PNG são permitidos.";
-        $uploadOk = 0;
-    }
-
-    if ($uploadOk == 1) {
-        if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
-            $sql = "INSERT INTO dogs (name, age, gender, breed, size, weight, veterinary_info, temperament, additional_info, location_id, image) 
-                    VALUES ('$name', '$age', '$gender', '$breed', '$size', '$weight', '$veterinary_info', '$temperament', '$additional_info', '$location_id', '$image')";
-
-            if ($conn->query($sql) === TRUE) {
-                echo "<div class='alert alert-success'>Animal cadastrado com sucesso!</div>";
-            } else {
-                echo "<div class='alert alert-danger'>Erro ao cadastrar o animal: " . $conn->error . "</div>";
-            }
-        } else {
-            echo "Desculpe, houve um erro ao fazer o upload da imagem.";
-        }
-    }
-}
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+    <head>
+        <meta chartset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Painel de Administração</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Administrativo - Cadastro de Animais</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+    <body>
+        <div class="sidebar">
+            <h2 class="text-white text-center">Painel Admin</h2>
+            <a href="list_animals.php"><i class="fas fa-paw"></i> Listar</a>
+            <a href="admin_panel.php?page=add_animal"><i class="fas fa-plus-circle"></i> Cadastrar</a>
+            <a href="report_adoptions.php"><i class="fas fa-chart-line"></i> Relatório</a>
+            <a href="change_password.php"><i class="fas fa-key"></i> Mudar Senha</a>
+            <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a>
+        </div>
 
-<body>
-    <div class="container mt-5">
-        <h2>Cadastrar Novo Animal</h2>
+        <div class="content">
+            <?php
+            switch ($page) {
+                case 'add_animal':
+                    include 'add_animal.php';
+                    break;
+                case 'list_animals':
+                    include 'list_animals.php';
+                    break;
+                case 'report_adoptions':
+                    include 'report_adoptions.php';
+                    break;
+                case 'change_password':
+                    include 'change_password.php';
+                    break;
+                default:
+                    echo "<h1>Bem vindo ao Painel Administrativo!</h1><p>Escola uma das opções ao lado.</p>";
+                    break;
+            }
+            ?>
+        </div>
 
-        <form action="adddata.php" method="POST" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="name" class="form-label">Nome</label>
-                <input type="text" class="form-control" id="name" name="name" required>
-            </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-            <div class="mb-3">
-                <label for="age" class="form-label">Idade</label>
-                <input type="number" class="form-control" id="age" name="age" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="gender" class="form-label">Gênero</label>
-                <select class="form-select" id="gender" name="gender" required>
-                    <option value="Macho">Macho</option>
-                    <option value="Fêmea">Fêmea</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label for="breed" class="form-label">Raça</label>
-                <input type="text" class="form-control" id="breed" name="breed" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="size" class="form-label">Tamanho</label>
-                <select class="form-select" id="size" name="size" required>
-                    <option value="Pequeno">Pequeno</option>
-                    <option value="Médio">Médio</option>
-                    <option value="Grande">Grande</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label for="weight" class="form-label">Peso (kg)</label>
-                <input type="number" step="0.01" class="form-control" id="weight" name="weight" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="veterinary_info" class="form-label">Informações Veterinárias</label>
-                <textarea class="form-control" id="veterinary_info" name="veterinary_info" rows="3" required></textarea>
-            </div>
-
-            <div class="mb-3">
-                <label for="temperament" class="form-label">Temperamento</label>
-                <textarea class="form-control" id="temperament" name="temperament" rows="3" required></textarea>
-            </div>
-
-            <div class="mb-3">
-                <label for="additional_info" class="form-label">Informações Adicionais</label>
-                <textarea class="form-control" id="additional_info" name="additional_info" rows="3"></textarea>
-            </div>
-
-            <div class="mb-3">
-                <label for="location_id" class="form-label">ID da Localização</label>
-                <input type="text" class="form-control" id="location_id" name="location_id" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="image" class="form-label">Imagem do Animal</label>
-                <input type="file" class="form-control" id="image" name="image" required>
-            </div>
-
-            <button type="submit" name="submit" class="btn btn-primary">Cadastrar Animal</button>
-        </form>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    </body>
 
 </html>
