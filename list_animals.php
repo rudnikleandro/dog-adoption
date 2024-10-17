@@ -31,8 +31,8 @@ $result = $conn->query($sql);
                     <td><?php echo $row['breed']; ?></td>
                     <td><?php echo $row['location_id']; ?></td>
                     <td>
-                        <a href="#" class="btn btn-warning btn-sm">Editar</a>
-                        <a href="#" class="btn btn-danger btn-sm">Deletar</a>
+                        <a href="admin_panel.php?page=edit_animal&id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">Editar</a>
+                        <a href="admin_panel.php?page=delete_animal&id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este animal?');">Deletar</a>
                     </td>
                 </tr>
             <?php endwhile; ?>

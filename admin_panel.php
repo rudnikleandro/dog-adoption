@@ -42,6 +42,9 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
                 case 'list_animals':
                     include 'list_animals.php';
                     break;
+                case 'edit_animal':
+                    include 'edit_animal.php';
+                    break;
                 case 'report_adoptions':
                     include 'report_adoptions.php';
                     break;
