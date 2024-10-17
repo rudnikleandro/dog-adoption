@@ -26,8 +26,10 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
     <div class="sidebar">
         <h2 class="text-white text-center">Painel Admin</h2>
         <a href="admin_panel.php?page=dashboard"><i class="fas fa-home"></i> Início</a>
-        <a href="admin_panel.php?page=add_animal"><i class="fas fa-plus-circle"></i> Cadastrar Animal</a>
+        <a href="admin_panel.php?page=add_animal"><i class="fas fa-plus-circle"></i> Adicionar Animal</a>
         <a href="admin_panel.php?page=list_animals"><i class="fas fa-paw"></i> Listar Animais</a>
+        <a href="admin_panel.php?page=add_adopter"><i class="fas fa-user-plus"></i> Adicionar Adotantes</a>
+        <a href="admin_panel.php?page=list_adopters"><i class="fas fa-users"></i> Listar Adotantes</a>
         <a href="admin_panel.php?page=report_adoptions"><i class="fas fa-chart-line"></i> Relatório de Adoções</a>
         <a href="admin_panel.php?page=change_password"><i class="fas fa-key"></i> Mudar Senha</a>
         <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a>
@@ -44,6 +46,15 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
                     break;
                 case 'edit_animal':
                     include 'edit_animal.php';
+                    break;
+                case 'delete_animal':
+                    include 'delete_animal.php';
+                    break;
+                case 'add_adopter':
+                    include 'add_adopter.php';
+                    break;
+                case 'list_adopters':
+                    include 'list_adopters.php';
                     break;
                 case 'report_adoptions':
                     include 'report_adoptions.php';

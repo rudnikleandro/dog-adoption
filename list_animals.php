@@ -6,8 +6,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit;
 }
 
-$sql = "SELECT * FROM dogs";
+$sql = "SELECT * FROM dogs WHERE deleted_at IS NULL"; 
 $result = $conn->query($sql);
+
 ?>
 
 <h2>Animais Cadastrados</h2>
